@@ -1,9 +1,0 @@
-# RewriteCond %{REQUEST_FILENAME} !-f
-# RewriteCond %{REQUEST_FILENAME} !-l
-# RewriteRule ^.*$ / [L]
-
-# ErrorDocument 403 /
-AuthName "Admin area"
-AuthType Basic
-AuthUserFile /Users/Andreas/Websites/gallery/admin/.htpasswd
-require valid-user
