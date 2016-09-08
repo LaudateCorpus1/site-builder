@@ -1,0 +1,12 @@
+Options -Indexes
+
+RewriteEngine On
+RewriteBase /
+
+# don't rewrite requests to json files:
+RewriteRule ^([^.?]+).json(.*)$ - [L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-l
+RewriteRule ^.*$ /gallery/app/ [L]
