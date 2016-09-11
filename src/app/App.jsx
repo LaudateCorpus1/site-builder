@@ -102,6 +102,8 @@ class App extends React.Component {
 
 		let dirs = this.getSortedItems(this.state.dirs);
 		let files = this.getSortedItems(this.state.files);
+		let prev = this.state.prev;
+		let next = this.state.next;
 
 		let view;
 		switch(this.state.meta.view) {
@@ -109,7 +111,7 @@ class App extends React.Component {
 				view = <ThumbnailView path={path} dirs={dirs} files={files} />;
 				break;
 			case 'project':
-				view = <ProjectView path={path} dirs={dirs} files={files} />;
+				view = <ProjectView path={path} dirs={dirs} files={files} prev={prev} next={next}/>;
 				break;
 			default:
 				view = <DefaultView path={path} dirs={dirs} files={files} />;

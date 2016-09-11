@@ -1,1 +1,1 @@
-export const CONTENT_ROOT = '/projects';
+export const CONTENT_ROOT = '';

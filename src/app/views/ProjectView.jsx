@@ -9,7 +9,7 @@ import * as settings from '../settings.js';
 import {Gallery} from '../../components/Gallery';
 import { Link, browserHistory } from 'react-router';
 
-const ProjectView = ({path, dirs, files}) => {
+const ProjectView = ({path, dirs, files, prev, next}) => {
 	if (path)
 		path += '/';
 
@@ -20,6 +20,23 @@ const ProjectView = ({path, dirs, files}) => {
 				<i className="fa fa-times fa-2x" aria-hidden="true" />
 			</div>
 		</a>;
+
+	let prevLink;
+	if (path && prev)
+		prevLink = <a href={ prev }>
+			<div className="prev-project">
+				<i className="fa fa-chevron-left fa-2x" aria-hidden="true" />
+			</div>
+		</a>;
+
+	let nextLink;
+	if (path && next)
+		nextLink = <a href={ next }>
+			<div className="next-project">
+				<i className="fa fa-chevron-right fa-2x" aria-hidden="true" />
+			</div>
+		</a>;
+
 
 
 	let images = files.map(f => ({
@@ -41,6 +58,8 @@ const ProjectView = ({path, dirs, files}) => {
 				title=''
 				images={images}
 			/>
+			{prevLink}
+			{nextLink}
 			{backLink}
 		</div>
 	)

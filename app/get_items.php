@@ -95,6 +95,7 @@ function get_items($path) {
 		while (($file = readdir($handle))!==false) {
 			if ((str_ends_with($file, META_FILE) == false) && ($file[0] != ".") && ($file[0] != "_")) {
 				$filePath = "$path/$file";
+
 				if (is_dir($filePath)) {
 					$item = get_meta($filePath);
 					if (empty($item['hidden'])) {
@@ -109,6 +110,7 @@ function get_items($path) {
 						$files[] = $item;
 					}
 				}
+
 			}
 		}
 		closedir($handle);
@@ -116,6 +118,18 @@ function get_items($path) {
 	return array('dirs' => $dirs, 'files' => $files);
 }
 
+function get_prev_and_next_dir($path){
+    $dirs = glob(dirname($path) . "/*", GLOB_ONLYDIR);
+	//print_r($path);
+	//print_r($dirs);
+	$i = array_search($path, $dirs);
+	$prev = ($i !== false && ($i > 0)) ? $dirs[$i - 1] : NULL;
+	$next = ($i !== false && ($i < count($dirs) - 1)) ? $dirs[$i + 1] : NULL;
+	return array(
+		'prev' => basename($prev),
+		'next' => basename($next)
+	);
+}
 
 try {
 
@@ -126,6 +140,9 @@ try {
 		if (is_null($path))
 			throw new RuntimeException('ERROR: no path specified.');
 
+		$path = rtrim($path, "/");
+		$path = ltrim($path, "/");
+
 		$fullPath = CONTENT_PATH . '/' . $path;
 
 		if (!file_exists($fullPath))
@@ -133,6 +150,9 @@ try {
 
 		$result = get_items($fullPath);
 		$result['meta'] = get_meta($fullPath);
+		$prevNext = get_prev_and_next_dir($fullPath);
+		$result['prev'] = dirname($path) . '/' . $prevNext['prev'];
+		$result['next'] = dirname($path) . '/' . $prevNext['next'];
 		echo json_encode($result);
 	}
 	else
