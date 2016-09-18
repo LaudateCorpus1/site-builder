@@ -30,16 +30,16 @@ const Thumbnail = ({path, url, title, thumb, icon}) => {
 		+ path + thumb} />
 
 	return (
-		<a href={url}>
-			<div className="thumbnail">
+		<div className="thumbnail">
+			<a href={url}>
 				{_thumb}
 				<div className="overlay">
 					<div className="title">
 						{title}
 					</div>
 				</div>
-			</div>
-		</a>
+			</a>
+		</div>
 	)
 }
 

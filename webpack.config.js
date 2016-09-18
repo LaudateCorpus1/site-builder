@@ -4,7 +4,7 @@ var path = require('path');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 var configApp = {
-	entry: './src/app/index.jsx',
+	entry: ['whatwg-fetch', './src/app/index.jsx'],
 	output: {
 		filename: './app/index.js'
 	},

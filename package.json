@@ -11,7 +11,7 @@
     "babel-preset-react": "^6.11.1",
     "coffee-loader": "^0.7.2",
     "html-webpack-plugin": "^2.22.0",
-	"json-loader": "^0.5.4",
+    "json-loader": "^0.5.4",
     "psd": "^3.1.0",
     "react": "^15.3.0",
     "react-addons-update": "^15.3.1",
@@ -20,7 +20,8 @@
     "react-dnd-html5-backend": "^2.1.2",
     "react-dom": "^15.3.0",
     "react-router": "^2.6.1",
-    "webpack": "^1.13.2"
+    "webpack": "^1.13.2",
+    "whatwg-fetch": "^1.0.0"
   },
   "devDependencies": {},
   "scripts": {

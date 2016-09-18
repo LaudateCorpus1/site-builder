@@ -20,6 +20,7 @@ function handleErrors(response) {
     return response;
 }
 
+const getBaseName = () => document.getElementsByTagName('base')[0].getAttribute('href');
 const getFilenameBase = (f) => f.substr(0, f.lastIndexOf('.'));
 const getFilenameExtension = (f) => f.substr(f.lastIndexOf('.') + 1);
 
@@ -161,8 +162,9 @@ class App extends React.Component {
 		return (
 			<div className="app">
 				<NavBar>
-					<NavItem text='Portfolio' url='/projects' />
+					<NavItem text='Portfolio' url={getBaseName()} />
 					<NavItem text='Play Tilt!' url='/tilt' />
+					<NavItem text='Contact' url='mailto:mail@andreashackel.de' />
 					<Edit
 						placeholder="&#xF002;"
 						style={{fontFamily: 'Arial, FontAwesome'}}

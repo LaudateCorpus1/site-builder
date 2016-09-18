@@ -5,11 +5,20 @@
 	--selection-color: #5cb85c;
 	--button-color: var(--selection-color);
 	--sidebar-color: #27272c;
-	--sidebar-width: 300px;
+	--sidebar-width: 0px;
+	--sidebar-display: none;
 	--thumbnail-size: 100px;
-	--project-preview-size: 200px;
-	--nav-bar-height: 50px;
+	--project-preview-size: 225px;
+	--nav-bar-height: 56px;
 }
+
+@media screen and (min-device-width: 1024px) {
+:root {
+	--sidebar-width: 300px;
+	--sidebar-display: block;
+}
+}
+
 
 /* force scrollbar */
 html { overflow-y: scroll; }
@@ -28,6 +37,7 @@ html, body {
 
 *:focus {
     outline: none;
+	box-sizing: border-box;
 }
 
 a {
@@ -60,12 +70,22 @@ h1 {
 }
 
 .header {
-	image-rendering: pixelated;
-	margin-top: -4px;
+	/* image-rendering: pixelated; */
+    display: inline-block;
+    height: 100%;
+}
+
+.header a {
+	display: inline-block;
+    height: 100%;
+    padding: 16px;
+    box-sizing: border-box;
 }
 
 .header img {
 	max-width: 100%;
+	max-height: 100%;
+	height: calc(var(--nav-bar-height) - 32px);
 }
 
 .collapsible {
@@ -156,11 +176,12 @@ h1 {
 /* Thumbnail View: */
 
 .thumbnail-view {
-	width: 100%;
+	/*width: 100%;*/
+	padding: 0 8px;
 }
 
 .thumbnail-view .thumbnail {
-	margin: 8px;
+	margin: 0 8px 16px;
     box-sizing: border-box;
     position: relative;
     border: none;
@@ -172,6 +193,16 @@ h1 {
 	display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.thumbnail-view:before,
+.thumbnail-view:after {
+	content: " ";
+	display: table;
+}
+
+.thumbnail-view:after {
+	clear: both;
 }
 
 .thumbnail-view .thumbnail img {
@@ -217,10 +248,10 @@ h1 {
     float: left;
     box-sizing: content-box;
     position: relative;
-	margin: 8px;
+	margin: 0 8px 16px;
 	border: none;
 	/*overflow: visible;*/
-	cursor: pointer;
+	/*cursor: pointer;*/
 }
 
 .gallery img {
@@ -250,6 +281,9 @@ h1 {
     margin: 0;
     display: inline-block;
 	width: 100%;
+	height: var(--nav-bar-height);
+	background: var(--bg-color);
+	z-index: 10;
 }
 
 .nav-bar li {
@@ -257,11 +291,12 @@ h1 {
 }
 
 .nav-bar li a {
-	padding: 0 10px;
+	padding: 0 16px;
     color: white;
     line-height: var(--nav-bar-height);
     box-sizing: content-box;
     display: inline-block;
+	vertical-align: top;
 }
 
 .nav-bar li a:hover {
@@ -272,7 +307,7 @@ h1 {
 .nav-bar .edit {
 	display: inline-block;
     float: right;
-    margin: 10px;
+    margin: 12px 16px;
 }
 
 /*
@@ -297,9 +332,8 @@ App:
 	padding: 16px;
 	box-sizing: border-box;
 	margin-top: var(--nav-bar-height);
+	display: var(--sidebar-display);
 }
-
-
 /*
 Admin:
 */
@@ -533,28 +567,33 @@ ul.defaultView {
 
 /* project-view: */
 
+.project-view {
+	padding: 0 8px;
+}
+
 .project-view .nav-icon {
 	position: fixed;
 	color: #fff;
-	opacity: 0.5;
+	opacity: 0.75;
 	text-shadow: 0px 0px 2px rgba(0,0,0,0.5);
+	/*background: var(--bg-color);*/
 }
 .project-view .nav-icon:hover {
 	opacity: 1;
 }
 
 .project-view .nav-icon.close {
-	right: 8px;
-	top: 8px;
+	right: 24px;
+	top: var(--nav-bar-height);
 }
 
 .project-view .nav-icon.prev {
     left: var(sidebar-width);
     top: 0px;
     height: 100%;
-    width: 36px;
+    width: 48px;
     padding-top: 50vh;
-	padding-left: 8px;
+	padding-left: 16px;
     box-sizing: border-box;
 }
 
@@ -562,8 +601,8 @@ ul.defaultView {
     right: 0px;
     top: 0px;
     height: 100%;
-    width: 36px;
+    width: 48px;
     padding-top: 50vh;
-	padding-right: 8px;
+	padding-right: 16px;
     box-sizing: border-box;
 }
