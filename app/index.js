@@ -110,6 +110,8 @@
 	
 	var _SideBar2 = _interopRequireDefault(_SideBar);
 	
+	var _NavBar = __webpack_require__(43);
+	
 	var _Edit = __webpack_require__(8);
 	
 	var _Edit2 = _interopRequireDefault(_Edit);
@@ -161,10 +163,14 @@
 	var App = function (_React$Component) {
 		_inherits(App, _React$Component);
 	
+		// static propTypes = {
+		// 	params: React.PropTypes.object
+		// }
+	
 		function App(props) {
 			_classCallCheck(this, App);
 	
-			var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(App).call(this, props));
+			var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 	
 			_this.state = {
 				meta: [],
@@ -173,17 +179,20 @@
 				sortBy: 'MANUAL',
 				sortOrder: 'ASCENDING'
 			};
+			_this.handleKeyDown = _this.handleKeyDown.bind(_this);
 			return _this;
 		}
-	
-		// static propTypes = {
-		// 	params: React.PropTypes.object
-		// }
 	
 		_createClass(App, [{
 			key: 'componentDidMount',
 			value: function componentDidMount() {
 				this.getItems(this.props.params.splat);
+				window.addEventListener('keydown', this.handleKeyDown);
+			}
+		}, {
+			key: 'componentWillUnmount',
+			value: function componentWillUnmount() {
+				window.removeEventListener('keydown', this.handleKeyDown, false);
 			}
 		}, {
 			key: 'componentWillReceiveProps',
@@ -252,6 +261,36 @@
 				return items;
 			}
 		}, {
+			key: 'changeView',
+			value: function changeView() {
+				var newView = this.state.meta.view || 'default';
+				if (this.state.meta.view == 'thumbnails') newView = 'project';else if (this.state.meta.view == 'project') newView = 'default';else if (this.state.meta.view == 'default') newView = 'thumbnails';
+	
+				console.log('changing view to', newView);
+				this.setState({ meta: React.addons.update(this.state.meta, { view: { $set: newView } }) });
+			}
+		}, {
+			key: 'handleKeyDown',
+			value: function handleKeyDown(e) {
+				var path = this.props.params.splat;
+				switch (e.code) {
+					case 'Escape':
+						if (path) window.location = path + '/..';
+						break;
+					case 'ArrowLeft':
+						if (this.state.prev) window.location = this.state.prev;
+						break;
+					case 'ArrowRight':
+						if (this.state.next) window.location = this.state.next;
+						break;
+					case 'KeyV':
+						this.changeView();
+						break;
+					default:
+						console.log(e.code);
+				}
+			}
+		}, {
 			key: 'render',
 			value: function render() {
 				var _this3 = this;
@@ -277,11 +316,12 @@
 	
 				return React.createElement(
 					'div',
-					{ className: 'projects-page' },
-					view,
+					{ className: 'app' },
 					React.createElement(
-						_SideBar2.default,
+						_NavBar.NavBar,
 						null,
+						React.createElement(_NavBar.NavItem, { text: 'Portfolio', url: '/projects' }),
+						React.createElement(_NavBar.NavItem, { text: 'Play Tilt!', url: '/tilt' }),
 						React.createElement(_Edit2.default, {
 							placeholder: '',
 							style: { fontFamily: 'Arial, FontAwesome' },
@@ -290,7 +330,12 @@
 								_this3.setState({ search: v });
 								//console.log(v);
 							}
-						}),
+						})
+					),
+					view,
+					React.createElement(
+						_SideBar2.default,
+						null,
 						React.createElement(
 							'h1',
 							null,
@@ -434,7 +479,7 @@
 	
 		return React.createElement(
 			'div',
-			null,
+			{ className: 'edit' },
 			labelElement,
 			React.createElement('input', _extends({}, other, {
 				ref: function ref(node) {
@@ -724,7 +769,6 @@
 		return React.createElement(
 			'div',
 			{ className: 'thumbnail-view' },
-			_back,
 			_dirs,
 			_files
 		);
@@ -764,7 +808,7 @@
 		function LazyImage(props) {
 			_classCallCheck(this, LazyImage);
 	
-			var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(LazyImage).call(this, props));
+			var _this = _possibleConstructorReturn(this, (LazyImage.__proto__ || Object.getPrototypeOf(LazyImage)).call(this, props));
 	
 			_this.state = { loading: true };
 			return _this;
@@ -818,9 +862,7 @@
 	
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 	
-	// import SideBar from '../components/SideBar';
-	// import ProjectsContainer from '../components/ProjectsContainer';
-	// import Edit from '../../components/Edit';
+	//  weak
 	
 	var ProjectView = function ProjectView(_ref) {
 		var path = _ref.path;
@@ -837,7 +879,7 @@
 			{ href: path + '..' },
 			React.createElement(
 				'div',
-				{ className: 'close-project' },
+				{ className: 'nav-icon close' },
 				React.createElement('i', { className: 'fa fa-times fa-2x', 'aria-hidden': 'true' })
 			)
 		);
@@ -848,7 +890,7 @@
 			{ href: prev },
 			React.createElement(
 				'div',
-				{ className: 'prev-project' },
+				{ className: 'nav-icon prev' },
 				React.createElement('i', { className: 'fa fa-chevron-left fa-2x', 'aria-hidden': 'true' })
 			)
 		);
@@ -859,7 +901,7 @@
 			{ href: next },
 			React.createElement(
 				'div',
-				{ className: 'next-project' },
+				{ className: 'nav-icon next' },
 				React.createElement('i', { className: 'fa fa-chevron-right fa-2x', 'aria-hidden': 'true' })
 			)
 		);
@@ -876,7 +918,7 @@
 	
 		return React.createElement(
 			'div',
-			{ className: 'project-page' },
+			{ className: 'project-view' },
 			React.createElement(_Gallery.Gallery
 			//selection={this.props.selection}
 			// onImageClick={this.props.onImageClick}
@@ -990,7 +1032,7 @@
 		function Gallery() {
 			_classCallCheck(this, Gallery);
 	
-			var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Gallery).call(this));
+			var _this = _possibleConstructorReturn(this, (Gallery.__proto__ || Object.getPrototypeOf(Gallery)).call(this));
 	
 			_this.state = {
 				containerWidth: 0
@@ -3681,6 +3723,46 @@
 	
 	exports['default'] = _deprecate2['default'](_useQueries2['default'], 'enableQueries is deprecated, use useQueries instead');
 	module.exports = exports['default'];
+
+/***/ },
+/* 43 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	exports.NavItem = exports.NavBar = undefined;
+	
+	var _react = __webpack_require__(1);
+	
+	var React = _interopRequireWildcard(_react);
+	
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+	
+	var NavBar = exports.NavBar = function NavBar(props) {
+		return React.createElement(
+			"ul",
+			{ className: "nav-bar" },
+			props.children
+		);
+	};
+	
+	var NavItem = exports.NavItem = function NavItem(_ref) {
+		var text = _ref.text;
+		var url = _ref.url;
+	
+		return React.createElement(
+			"li",
+			{ className: "nav-item" },
+			React.createElement(
+				"a",
+				{ href: url },
+				text
+			)
+		);
+	};
 
 /***/ }
 /******/ ]);

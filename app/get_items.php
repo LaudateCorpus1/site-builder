@@ -118,16 +118,21 @@ function get_items($path) {
 	return array('dirs' => $dirs, 'files' => $files);
 }
 
-function get_prev_and_next_dir($path){
-    $dirs = glob(dirname($path) . "/*", GLOB_ONLYDIR);
+function get_prev_and_next_dir($fullPath, $path){
+	$parentPath = dirname($path);
+//	if ($parentPath != '.')
+		$parentPath .= '/';
+
+    $dirs = glob(dirname($fullPath) . "/*", GLOB_ONLYDIR);
 	//print_r($path);
 	//print_r($dirs);
-	$i = array_search($path, $dirs);
-	$prev = ($i !== false && ($i > 0)) ? $dirs[$i - 1] : NULL;
-	$next = ($i !== false && ($i < count($dirs) - 1)) ? $dirs[$i + 1] : NULL;
+
+	$i = array_search($fullPath, $dirs);
+	$prev = ($i !== false && ($i > 0)) ? $parentPath . basename($dirs[$i - 1]) : NULL;
+	$next = ($i !== false && ($i < count($dirs) - 1)) ? $parentPath . basename($dirs[$i + 1]) : NULL;
 	return array(
-		'prev' => basename($prev),
-		'next' => basename($next)
+		'prev' => $prev,
+		'next' => $next
 	);
 }
 
@@ -150,9 +155,10 @@ try {
 
 		$result = get_items($fullPath);
 		$result['meta'] = get_meta($fullPath);
-		$prevNext = get_prev_and_next_dir($fullPath);
-		$result['prev'] = dirname($path) . '/' . $prevNext['prev'];
-		$result['next'] = dirname($path) . '/' . $prevNext['next'];
+		$prevNext = get_prev_and_next_dir($fullPath, $path);
+
+		$result['prev'] = $prevNext['prev'];
+		$result['next'] = $prevNext['next'];
 		echo json_encode($result);
 	}
 	else

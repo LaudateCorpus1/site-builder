@@ -7,7 +7,7 @@ const Edit = (props) =>  {
 	let labelElement = label ? <label>{label}</label> : null;
 
 	return (
-		<div>
+		<div className="edit">
 			{labelElement}
 			<input
 				{...other}

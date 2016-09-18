@@ -8,6 +8,7 @@
 	--sidebar-width: 300px;
 	--thumbnail-size: 100px;
 	--project-preview-size: 200px;
+	--nav-bar-height: 50px;
 }
 
 /* force scrollbar */
@@ -239,17 +240,51 @@ h1 {
 	background: #02c546;
 }
 
+/* NavBar: */
+.nav-bar {
+	list-style-type: none;
+    padding: 0;
+    position: fixed;
+    left: 0;
+    top: 0;
+    margin: 0;
+    display: inline-block;
+	width: 100%;
+}
+
+.nav-bar li {
+	display: inline;
+}
+
+.nav-bar li a {
+	padding: 0 10px;
+    color: white;
+    line-height: var(--nav-bar-height);
+    box-sizing: content-box;
+    display: inline-block;
+}
+
+.nav-bar li a:hover {
+	text-decoration: none;
+	background: var(--selection-color);
+}
+
+.nav-bar .edit {
+	display: inline-block;
+    float: right;
+    margin: 10px;
+}
+
 /*
 App:
 */
 
-#root {
-	margin-left: var(--sidebar-width);
+.app {
+	margin-top: var(--nav-bar-height);
 }
 
-.projects-page, .project-page {
-	max-width: var(--max-page-width);
-	padding: 8px;
+#root {
+	margin-left: var(--sidebar-width);
 }
 
 .sidebar {
@@ -261,44 +296,9 @@ App:
 	top: 0;
 	padding: 16px;
 	box-sizing: border-box;
+	margin-top: var(--nav-bar-height);
 }
 
-.close-project {
-	position: fixed;
-	right: 8px;
-	top: 8px;
-	color: #fff;
-	text-shadow: 0px 0px 2px rgba(0,0,0,0.5);
-	opacity: 0.5;
-}
-
-.prev-project {
-	color: #fff;
-    position: fixed;
-    left: var(sidebar-width);
-    top: 0px;
-    height: 100%;
-    text-shadow: 0px 0px 2px rgba(0,0,0,0.5);
-    width: 36px;
-    padding-top: 50vh;
-	padding-left: 8px;
-    box-sizing: border-box;
-	opacity: 0.5;
-}
-
-.next-project {
-	color: #fff;
-    position: fixed;
-    right: 0px;
-    top: 0px;
-    height: 100%;
-    text-shadow: 0px 0px 2px rgba(0,0,0,0.5);
-    width: 36px;
-    padding-top: 50vh;
-	padding-right: 8px;
-    box-sizing: border-box;
-	opacity: 0.5;
-}
 
 /*
 Admin:
@@ -529,4 +529,41 @@ ul.defaultView {
 .defaultView a:hover {
 	text-decoration: none;
 	color: #fff;
+}
+
+/* project-view: */
+
+.project-view .nav-icon {
+	position: fixed;
+	color: #fff;
+	opacity: 0.5;
+	text-shadow: 0px 0px 2px rgba(0,0,0,0.5);
+}
+.project-view .nav-icon:hover {
+	opacity: 1;
+}
+
+.project-view .nav-icon.close {
+	right: 8px;
+	top: 8px;
+}
+
+.project-view .nav-icon.prev {
+    left: var(sidebar-width);
+    top: 0px;
+    height: 100%;
+    width: 36px;
+    padding-top: 50vh;
+	padding-left: 8px;
+    box-sizing: border-box;
+}
+
+.project-view .nav-icon.next {
+    right: 0px;
+    top: 0px;
+    height: 100%;
+    width: 36px;
+    padding-top: 50vh;
+	padding-right: 8px;
+    box-sizing: border-box;
 }

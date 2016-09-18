@@ -64,7 +64,7 @@ const ThumbnailView = ({path, dirs, files}: ThumbnailArgs) => {
 	let _back = (path) ? <Thumbnail title='..' path={path} url={path + '..'} icon='level-up'/> : null;
 	return (
 		<div className="thumbnail-view">
-			{_back}
+			{/* {_back} */}
 			{_dirs}
 			{_files}
 		</div>
